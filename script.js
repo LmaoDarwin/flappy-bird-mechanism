@@ -30,41 +30,45 @@ class UFO {
    */
   constructor(game) {
     this.game = game;
-    this.x = this.game.width / 2;
-    this.y = this.game.height / 2;
-    window.addEventListener(
-      'keydown',
-      ({ key }) => key === ' ' && ((this.state = 'fly'), (this.speed = -10))
-    );
-    window.addEventListener('keyup', ({ key }) => key === ' ' && ((this.state = '')));
+    this.x = this.game.width / 2; //start at middle
+    this.y = this.game.height / 2; //start at middle
+    window.addEventListener('keydown', ({ key }) => {
+      if (key === ' ') {
+        if(this.state ==='fly')return; //prevent double click
+        (this.state = 'fly'), (this.speed = -10); //fly up by changing speed
+      }
+    });
+    window.addEventListener('keyup', ({ key }) => key === ' ' && (this.state = '')); //space postclick set state back to ''
   }
 
-  //    --- properties ---
-  size = 20;
-  state = '';
-  speed = 0;
+  //    --- PROPERTIES ---
+  size = 20; //size of cube
+  state = ''; //state => 'fly' || ''
+  speed = 0; //speed of cube 
 
-  //    --- methods ---
+  //    --- METHODS ---
   /**
-   * Canvas render context 2d
+   * Canvas render context 2d to draw stuff on canvas
    * @param {CanvasRenderingContext2D} ctx
    */
   draw(ctx) {
     ctx.fillStyle = 'orangered';
     ctx.fillRect(this.x, this.y, this.size, this.size);
   }
+  /** to place cube according to the edge of the canvas */
   outOfBound() {
-    if (this.y < 0) (this.y = 0), (this.speed = 0);
+    if (this.y < 0) (this.y = 0), (this.speed = 0); //ocollide with above
     if (this.y >= this.game.height - this.size) (this.y = this.game.height - this.size), (this.speed = 0); // oncollide with bottom
   }
+  /** control the movement of the cube. fall or fly */
   controller() {
-    console.log(this.speed);
-    this.y += this.speed; // fly up
-    if ((this.state === '') || this.state === 'fly')return this.speed++; // fall if no key pressed(state '')
+    this.y += this.speed; // move cube to fly or fall
+    if (this.state === '' || this.state === 'fly') return this.speed+= 0.5; // fall if no key pressed(state = '') or after clicked (state = 'fly')
   }
 }
-const myGame = new Game(cvs.height, cvs.width);
+const myGame = new Game(cvs.height, cvs.width); //init game class
 
+/** to start animation loop */
 function animate() {
   ctx.clearRect(0, 0, cvs.width, cvs.height);
   myGame.draw(ctx);

@@ -30,11 +30,11 @@ class UFO {
    */
   constructor(game) {
     this.game = game;
-    this.x = this.game.width / 2; //start at middle
+    this.x = this.game.width / 2 - this.size / 2; //start at middle
     this.y = this.game.height / 2; //start at middle
     window.addEventListener('keydown', ({ key }) => {
       if (key === ' ') {
-        if(this.state ==='fly')return; //prevent double click
+        if (this.state === 'fly') return; //prevent double click
         (this.state = 'fly'), (this.speed = -10); //fly up by changing speed
       }
     });
@@ -44,7 +44,7 @@ class UFO {
   //    --- PROPERTIES ---
   size = 20; //size of cube
   state = ''; //state => 'fly' || ''
-  speed = 0; //speed of cube 
+  speed = 0; //speed of cube
 
   //    --- METHODS ---
   /**
@@ -63,7 +63,7 @@ class UFO {
   /** control the movement of the cube. fall or fly */
   controller() {
     this.y += this.speed; // move cube to fly or fall
-    if (this.state === '' || this.state === 'fly') return this.speed+= 0.5; // fall if no key pressed(state = '') or after clicked (state = 'fly')
+    if (this.state === '' || this.state === 'fly') return (this.speed += 0.5); // fall if no key pressed(state = '') or after clicked (state = 'fly')
   }
 }
 const myGame = new Game(cvs.height, cvs.width); //init game class

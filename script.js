@@ -63,7 +63,7 @@ class UFO {
   /** control the movement of the cube. fall or fly */
   controller() {
     this.y += this.speed; // move cube to fly or fall
-    if (this.state === '' || this.state === 'fly') return (this.speed += 0.5); // fall if no key pressed(state = '') or after clicked (state = 'fly')
+    this.speed += 0.5; // constanly falling
   }
 }
 const myGame = new Game(cvs.height, cvs.width); //init game class
